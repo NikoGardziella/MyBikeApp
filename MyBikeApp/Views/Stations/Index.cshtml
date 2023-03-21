@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StartStations)
+                @Html.DisplayNameFor(model => model.Departure)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndStation)
+              ##  @Html.DisplayNameFor(model => model.Return)
             </th>
             <th></th>
         </tr>
@@ -25,10 +25,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StartStations)
+                @Html.DisplayFor(modelItem => item.Departure)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EndStation)
+             ##   @Html.DisplayFor(modelItem => item.Return)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

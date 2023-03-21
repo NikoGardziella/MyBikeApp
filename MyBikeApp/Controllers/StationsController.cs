@@ -1,28 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using MyBikeApp.Data;
 using MyBikeApp.Models;
+using CsvHelper;
+using System.IO;
+using System.Globalization;
+using System.Linq;
 
 namespace MyBikeApp.Controllers
 {
     public class StationsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+
+		String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv");
+
+		List<Station> stations = new List<Station>();
+
+		private readonly ApplicationDbContext _context;
 
         public StationsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Stations
-        public async Task<IActionResult> Index()
+
+        public void CsvHelperReader()
         {
-              return _context.Station != null ? 
+            using(var streamReader = new StreamReader(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv"))
+            {
+                using(var csvreader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+                {
+                    var record = csvreader.GetRecord<dynamic>();
+
+                }
+            }
+        }
+
+		public void ReadCsv()
+		{
+            // Dont read first line
+			for (int i = 1; i < csvLines.Length; i++)
+			{
+                Station station = new Station();
+               station = station.InitStation(station,csvLines[i]);
+				stations.Add(station);
+
+			}
+		}
+
+		public void WriteStationConsole()
+		{
+			for (int i = 0; i < stations.Count; i++)
+			{
+				Console.WriteLine(stations[i]);
+			}
+		}
+
+
+
+		// GET: Stations
+		public async Task<IActionResult> Index()
+        {
+            ReadCsv();
+            WriteStationConsole();
+			  return _context.Station != null ? 
                           View(await _context.Station.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Station'  is null.");
         }
@@ -30,15 +80,20 @@ namespace MyBikeApp.Controllers
 		// GET: Stations/ShowSearchForm
 		public async Task<IActionResult> ShowSearchForm()
 		{
-            
+           
 			return 	View();
 		}
+
+       
+
 
 		// GET: Stations/ShowSearchResults
 		public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
 		{
 			
-			return View("Index", await _context.Station.Where( j => j.StartStations.Contains(SearchPhrase) ) .ToListAsync());
+            return View("Index", await _context.Station.Where( j => j.Departure.Contains(SearchPhrase)).ToListAsync());
+            
+
 		}
 
 		// GET: Stations/Details/5
@@ -59,6 +114,7 @@ namespace MyBikeApp.Controllers
             return View(station);
         }
 
+        [Authorize]
         // GET: Stations/Create
         public IActionResult Create()
         {
@@ -68,6 +124,7 @@ namespace MyBikeApp.Controllers
         // POST: Stations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,StartStations,EndStation")] Station station)
@@ -82,6 +139,7 @@ namespace MyBikeApp.Controllers
         }
 
         // GET: Stations/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Station == null)
@@ -96,7 +154,7 @@ namespace MyBikeApp.Controllers
             }
             return View(station);
         }
-
+        [Authorize]
         // POST: Stations/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -131,7 +189,7 @@ namespace MyBikeApp.Controllers
             }
             return View(station);
         }
-
+        [Authorize]
         // GET: Stations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -149,7 +207,7 @@ namespace MyBikeApp.Controllers
 
             return View(station);
         }
-
+        [Authorize]
         // POST: Stations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
