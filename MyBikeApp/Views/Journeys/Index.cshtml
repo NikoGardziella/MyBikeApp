@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyBikeApp.Models.Journey>
+﻿@model PaginatedList<MyBikeApp.Models.Journey>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,19 +9,24 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DepartureStationName)
+                @Html.ActionLink("Station", "Index", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Departure)
+                @Html.ActionLink("Time", "Index", new { sortOrder = ViewBag.DateSortParm })
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Return)
-            </th>
-            
+                       
             <th></th>
         </tr>
     </thead>
@@ -44,5 +49,27 @@
             </td>
         </tr>
 }
+    <
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.NextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+

@@ -9,11 +9,11 @@ using MyBikeApp.Data;
 
 #nullable disable
 
-namespace MyBikeApp.Data.Migrations
+namespace MyBikeApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230321090308_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230322103617_pagination")]
+    partial class pagination
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,7 +226,7 @@ namespace MyBikeApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MyBikeApp.Models.Station", b =>
+            modelBuilder.Entity("MyBikeApp.Models.Journey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -264,7 +264,7 @@ namespace MyBikeApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Station");
+                    b.ToTable("Journey");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

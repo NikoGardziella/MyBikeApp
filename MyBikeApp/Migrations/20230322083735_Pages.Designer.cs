@@ -9,11 +9,11 @@ using MyBikeApp.Data;
 
 #nullable disable
 
-namespace MyBikeApp.Data.Migrations
+namespace MyBikeApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230320072916_initialsetup")]
-    partial class initialsetup
+    [Migration("20230322083735_Pages")]
+    partial class Pages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,7 +226,7 @@ namespace MyBikeApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MyBikeApp.Models.Station", b =>
+            modelBuilder.Entity("MyBikeApp.Models.Journey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -234,17 +234,35 @@ namespace MyBikeApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("EndStation")
+                    b.Property<int>("CoveredDistanceM")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Departure")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartureStationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DepartureStationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StartStations")
+                    b.Property<int>("DurationSec")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Return")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReturnStationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReturnStationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Station");
+                    b.ToTable("Journey");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
