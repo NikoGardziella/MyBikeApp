@@ -3,25 +3,25 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace MyBikeApp.Models
 {
-    public class Station
+    public class Journey
     {
         public int Id { get; set; }
-        public string Departure { get; set; }
+        public DateTime Departure { get; set; }
         public int DepartureStationId { get; set; }
         public string DepartureStationName { get; set; }
 
-        public string Return { get; set; }
+        public DateTime Return { get; set; }
         public int ReturnStationId { get; set; }
         public string ReturnStationName { get; set; }
         public int CoveredDistanceM { get; set; }
         public int DurationSec { get; set; }
 
 
-        public Station()
+        public Journey()
         {
 			
-			this.Departure = "";
-			this.Return = "";
+			this.Departure = default(DateTime);
+			this.Return = default(DateTime);
 			this.DepartureStationId = 0;
 			this.DepartureStationName = "";
 			this.ReturnStationId = 0;
@@ -30,28 +30,28 @@ namespace MyBikeApp.Models
 			this.DurationSec = 0; 
 		}
 
-		public Station InitStation(Station station, string rowData)
+		public Journey InitStation(Journey journey, string rowData)
 		{
 			string[] data = rowData.Split(',');
-			this.Departure = data[0];
-			this.Return = data[1];
-			this.DepartureStationId = int.Parse(data[2]);
-			this.DepartureStationName = data[3];
-			this.ReturnStationId = int.Parse(data[4]);
-			this.ReturnStationName = data[5];
-			this.CoveredDistanceM = int.Parse(data[6]);
-			this.DurationSec = int.Parse(data[7]);
-			return station;
+			journey.Departure = DateTime.Parse(data[0]);
+			journey.Return = DateTime.Parse(data[1]);
+			journey.DepartureStationId = int.Parse(data[2]);
+			journey.DepartureStationName = data[3];
+			journey.ReturnStationId = int.Parse(data[4]);
+			journey.ReturnStationName = data[5];
+			journey.CoveredDistanceM = int.Parse(data[6]);
+			journey.DurationSec = int.Parse(data[7]);
+			return journey;
 		} 
 
 
-		/*public override string ToString()
+		public override string ToString()
 			
 		{
             string str = $"{Departure} {Return}: " + $"{DepartureStationId} {DepartureStationName} " + $"{ReturnStationId} {ReturnStationName} " + $"{CoveredDistanceM} {DurationSec}";
 
 			return str;
-		} */
+		} 
 
 	}
 }

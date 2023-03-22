@@ -10,6 +10,6 @@ namespace MyBikeApp.Data
 			: base(options)
 		{
 		}
-		public DbSet<MyBikeApp.Models.Station>? Station { get; set; }
+		public DbSet<MyBikeApp.Models.Journey>? Station { get; set; }
 	}
 }

@@ -224,7 +224,7 @@ namespace MyBikeApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MyBikeApp.Models.Station", b =>
+            modelBuilder.Entity("MyBikeApp.Models.Journey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -262,7 +262,7 @@ namespace MyBikeApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Station");
+                    b.ToTable("Journey");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

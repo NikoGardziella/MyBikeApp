@@ -18,16 +18,16 @@ using System.Linq;
 
 namespace MyBikeApp.Controllers
 {
-    public class StationsController : Controller
+    public class JourneysController : Controller
     {
 
 		String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv");
 
-		List<Station> stations = new List<Station>();
+		List<Journey> journeys = new List<Journey>();
 
 		private readonly ApplicationDbContext _context;
 
-        public StationsController(ApplicationDbContext context)
+        public JourneysController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -45,23 +45,30 @@ namespace MyBikeApp.Controllers
             }
         }
 
-		public void ReadCsv()
+		public async Task ReadCsv()
 		{
-            // Dont read first line
-			for (int i = 1; i < csvLines.Length; i++)
-			{
-                Station station = new Station();
-               station = station.InitStation(station,csvLines[i]);
-				stations.Add(station);
+            Task task = Task.Run(() =>
+            {
+                // Dont read first line
+                for (int i = 1; i < csvLines.Length; i++)
+                {
+                    Journey journey = new Journey();
+                    journey = journey.InitStation(journey, csvLines[i]);
+                    journeys.Add(journey);
+                }
+                
 
-			}
+            });
+			await task;
 		}
 
-		public void WriteStationConsole()
+		
+
+		public void  WriteStationConsole()
 		{
-			for (int i = 0; i < stations.Count; i++)
+			for (int i = 0; i < journeys.Count; i++)
 			{
-				Console.WriteLine(stations[i]);
+				Console.WriteLine(journeys[i]);
 			}
 		}
 
@@ -70,12 +77,12 @@ namespace MyBikeApp.Controllers
 		// GET: Stations
 		public async Task<IActionResult> Index()
         {
-            ReadCsv();
-            WriteStationConsole();
-			  return _context.Station != null ? 
-                          View(await _context.Station.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Station'  is null.");
+			await ReadCsv();
+			WriteStationConsole();
+			return View(journeys);
         }
+
+		
 
 		// GET: Stations/ShowSearchForm
 		public async Task<IActionResult> ShowSearchForm()
@@ -91,7 +98,7 @@ namespace MyBikeApp.Controllers
 		public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
 		{
 			
-            return View("Index", await _context.Station.Where( j => j.Departure.Contains(SearchPhrase)).ToListAsync());
+            return View("Index", await _context.Station.Where( j => j.Departure.ToString().Contains(SearchPhrase)).ToListAsync());
             
 
 		}
@@ -127,7 +134,7 @@ namespace MyBikeApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StartStations,EndStation")] Station station)
+        public async Task<IActionResult> Create([Bind("Id,StartStations,EndStation")] Journey station)
         {
             if (ModelState.IsValid)
             {
@@ -160,7 +167,7 @@ namespace MyBikeApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartStations,EndStation")] Station station)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StartStations,EndStation")] Journey station)
         {
             if (id != station.Id)
             {
