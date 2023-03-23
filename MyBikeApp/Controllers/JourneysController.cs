@@ -21,7 +21,7 @@ namespace MyBikeApp.Controllers
     public class JourneysController : Controller
     {
 
-        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv");
+        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\500list.csv");
 
         List<Journey> journeys = new List<Journey>();
 
@@ -45,8 +45,9 @@ namespace MyBikeApp.Controllers
             }
         }
 
-        public async Task ReadCsv()
+        public async Task<ActionResult> ReadCsv()
         {
+            Console.WriteLine("Reading csv");
             Task task = Task.Run(() =>
             {
                 // Dont read first line
@@ -56,13 +57,15 @@ namespace MyBikeApp.Controllers
                     journey = journey.InitJourney(journey, csvLines[i]);
                     journeys.Add(journey);
                     _context.Add(journey);
-                    _context.SaveChanges();
+                    
                 }
-               
+                Console.WriteLine("added "+ csvLines.Length +" journeys");
 
             });
+            _context.SaveChanges();
             await _context.SaveChangesAsync();
             await task;
+            return View();
         }
 
 
@@ -84,6 +87,8 @@ namespace MyBikeApp.Controllers
             return Ok(m_Journeys);
         }
 
+
+        // source: https://learn.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
         public async Task<ViewResult> IndexAsync(string sortOrder, string searchString)
         {
            // ReadCsv();

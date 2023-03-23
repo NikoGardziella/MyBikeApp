@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyBikeApp.Models;
 using System.Diagnostics;
 
@@ -28,5 +29,11 @@ namespace MyBikeApp.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
-	}
+
+        public async Task<ActionResult> ReadCsv()
+        {
+            Console.WriteLine("Reading csv");
+			return View();
+        }
+    }
 }
