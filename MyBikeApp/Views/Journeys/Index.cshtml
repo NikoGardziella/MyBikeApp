@@ -1,75 +1,69 @@
-﻿@model PaginatedList<MyBikeApp.Models.Journey>
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@using X.PagedList.Mvc.Core.Fluent;
 
+@model X.PagedList.IPagedList<MyBikeApp.Models.Journey>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewData["Title"] = "Index";
+    // ViewData["Title"] = "Index";
+    ViewBag.Title = "Journeys";
+   // var pagedList = (X.PagedList.IPagedList)ViewBag.Title;
 }
 
-<h1>Index</h1>
+<h2>Journeys</h2>
+
+<h2>List of Products</h2>
+
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "Journey", FormMethod.Get))
 {
     <p>
-        Find by name: @Html.TextBox("SearchString")
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Station", "Index", new { sortOrder = ViewBag.NameSortParm })
+                @Html.ActionLink("Departure", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
             </th>
             <th>
-                @Html.ActionLink("Time", "Index", new { sortOrder = ViewBag.DateSortParm })
+                @Html.ActionLink("Return", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter=ViewBag.CurrentFilter })
             </th>
-                       
+
             <th></th>
         </tr>
     </thead>
+
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartureStationName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Departure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Return)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    <
+    
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DepartureStationName</td>
+                <td>@item.ReturnStationName</td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+             </tr>
+        }
+  
+
     </tbody>
+
+        
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@{
-    var prevDisabled = !Model.PreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.NextPage ? "disabled" : "";
-}
-
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
-
+@Html.PagedListPager( Model , page => Url.Action("Index", new { page }) )

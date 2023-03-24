@@ -8,7 +8,7 @@ using MyBikeApp.Data;
 
 #nullable disable
 
-namespace MyBikeApp.Data.Migrations
+namespace MyBikeApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -232,8 +232,8 @@ namespace MyBikeApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CoveredDistanceM")
-                        .HasColumnType("int");
+                    b.Property<float>("CoveredDistanceM")
+                        .HasColumnType("real");
 
                     b.Property<string>("Departure")
                         .IsRequired()

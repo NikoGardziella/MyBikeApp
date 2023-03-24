@@ -6,6 +6,7 @@ namespace MyBikeApp.Models
 {
     public class Journey
     {
+		private const int MIN_DISTANCE = 10;
         public int Id { get; set; }
         public string Departure { get; set; }
         public int DepartureStationId { get; set; }
@@ -14,7 +15,7 @@ namespace MyBikeApp.Models
         public string Return { get; set; }
         public int ReturnStationId { get; set; }
         public string ReturnStationName { get; set; }
-        public int CoveredDistanceM { get; set; }
+        public float CoveredDistanceM { get; set; }
         public int DurationSec { get; set; }
 
 
@@ -34,16 +35,40 @@ namespace MyBikeApp.Models
 		public Journey InitJourney(Journey journey, string rowData)
 		{
 			string[] data = rowData.Split(',');
+			if (data == null)
+				return null;
+			for (int i = 0; i < data.Length; i++)
+			{
+				if (data[i] == null)
+					return null;
+			}
+			float distance;
 			journey.Departure = data[0];
 			journey.Return = data[1];
 			journey.DepartureStationId = int.Parse(data[2]);
 			journey.DepartureStationName = data[3];
 			journey.ReturnStationId = int.Parse(data[4]);
 			journey.ReturnStationName = data[5];
-			journey.CoveredDistanceM = int.Parse(data[6]);
+
+			distance = CheckDistance(data[6]);
+			if (distance > MIN_DISTANCE)
+				journey.CoveredDistanceM = distance;
+			else
+				return null;
+            
 			journey.DurationSec = int.Parse(data[7]);
 			return journey;
-		} 
+		}
+
+		float CheckDistance(string data)
+		{
+			float result;
+            result = Single.Parse(data);
+
+            if (result > MIN_DISTANCE)
+				return result;
+			return 0;
+		}
 
 
 		public override string ToString()

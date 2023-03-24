@@ -32,6 +32,7 @@ namespace MyBikeApp.Controllers
 
         public async Task<ActionResult> ReadCsv()
         {
+           
             Console.WriteLine("Reading csv");
 			return View();
         }

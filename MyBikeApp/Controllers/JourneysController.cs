@@ -15,13 +15,14 @@ using CsvHelper;
 using System.IO;
 using System.Globalization;
 using System.Linq;
+using X.PagedList;
 
 namespace MyBikeApp.Controllers
 {
     public class JourneysController : Controller
     {
 
-        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\500list.csv");
+        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv");
 
         List<Journey> journeys = new List<Journey>();
 
@@ -33,7 +34,7 @@ namespace MyBikeApp.Controllers
         }
 
 
-        public void CsvHelperReader()
+     /*   public void CsvHelperReader()
         {
             using (var streamReader = new StreamReader(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv"))
             {
@@ -43,31 +44,48 @@ namespace MyBikeApp.Controllers
 
                 }
             }
-        }
+        } */
 
         public async Task<ActionResult> ReadCsv()
         {
             Console.WriteLine("Reading csv");
-            Task task = Task.Run(() =>
+            Task task = Task.Run(async () =>
             {
                 // Dont read first line
                 for (int i = 1; i < csvLines.Length; i++)
                 {
+                    Console.WriteLine("journey: " + i);
                     Journey journey = new Journey();
                     journey = journey.InitJourney(journey, csvLines[i]);
                     journeys.Add(journey);
-                    _context.Add(journey);
-                    
+                  //  _context.Add(journey);
+                  if(journey != null)
+                    {
+                        await Create(journey);
+                    }
+                   // _context.SaveChanges();
+
                 }
                 Console.WriteLine("added "+ csvLines.Length +" journeys");
-
+                await _context.SaveChangesAsync();
             });
-            _context.SaveChanges();
-            await _context.SaveChangesAsync();
             await task;
             return View();
         }
 
+    
+        public async Task<ActionResult> ClearDatabase()
+        {
+            int beforeCount = _context.Journey.Count();
+            Console.WriteLine("before clear:" + beforeCount);           
+            
+            _context.Journey.RemoveRange(_context.Journey.Where(x=>x.DepartureStationName != ""));
+            _context.SaveChanges();
+
+            int afterCount = _context.Journey.Count();
+            Console.WriteLine("after clear: " + afterCount);
+            return View("ShowDatabase");
+        }
 
 
         public void WriteJourneyConsole()
@@ -89,11 +107,23 @@ namespace MyBikeApp.Controllers
 
 
         // source: https://learn.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
-        public async Task<ViewResult> IndexAsync(string sortOrder, string searchString)
+        public async Task<ViewResult> IndexAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
-           // ReadCsv();
+            // ReadCsv();
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
 
             var m_Journeys = from s in _context.Journey
                              select s;
@@ -119,8 +149,10 @@ namespace MyBikeApp.Controllers
                     m_Journeys = m_Journeys.OrderBy(s => s.Departure);
                     break;
             }
-            return View(await PaginatedList<Journey>.CreateASync(m_Journeys, 1, 5));
-            //   return View(m_Journeys.ToList());
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(m_Journeys.ToPagedList(pageNumber, pageSize));
+            
         }
 
         // GET: Journeys
@@ -141,12 +173,16 @@ namespace MyBikeApp.Controllers
            
 			return 	View();
 		}
+        public async Task<IActionResult> ShowDatabase()
+        {
 
-       
+            return View();
+        }
 
 
-		// GET: Stations/ShowSearchResults
-		public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
+
+        // GET: Stations/ShowSearchResults
+        public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
 		{
 			
             return View("Index", await _context.Journey.Where( j => j.Departure.ToString().Contains(SearchPhrase)).ToListAsync());
@@ -282,6 +318,8 @@ namespace MyBikeApp.Controllers
             {
                 _context.Journey.Remove(journey);
             }
+            else
+                Console.WriteLine("ERROR: delete journey: jorney null");
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(IndexAsync));

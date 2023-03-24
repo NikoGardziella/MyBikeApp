@@ -12,8 +12,8 @@ using MyBikeApp.Data;
 namespace MyBikeApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230322083735_Pages")]
-    partial class Pages
+    [Migration("20230324085826_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -234,11 +234,12 @@ namespace MyBikeApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CoveredDistanceM")
-                        .HasColumnType("int");
+                    b.Property<float>("CoveredDistanceM")
+                        .HasColumnType("real");
 
-                    b.Property<DateTime>("Departure")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Departure")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DepartureStationId")
                         .HasColumnType("int");
@@ -250,8 +251,9 @@ namespace MyBikeApp.Migrations
                     b.Property<int>("DurationSec")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Return")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Return")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReturnStationId")
                         .HasColumnType("int");
