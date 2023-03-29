@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using MyBikeApp.Data;
 using MyBikeApp.Models;
@@ -22,7 +23,7 @@ namespace MyBikeApp.Controllers
     public class JourneysController : Controller
     {
 
-        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv");
+        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\topFive.csv");
 
         List<Journey> journeys = new List<Journey>();
 
@@ -57,7 +58,7 @@ namespace MyBikeApp.Controllers
                     Console.WriteLine("journey: " + i);
                     Journey journey = new Journey();
                     journey = journey.InitJourney(journey, csvLines[i]);
-                    journeys.Add(journey);
+                  //  journeys.Add(journey);
                   //  _context.Add(journey);
                   if(journey != null)
                     {
@@ -182,13 +183,29 @@ namespace MyBikeApp.Controllers
 
 
         // GET: Stations/ShowSearchResults
-        public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
+        public async Task<ViewResult> ShowSearchResults(String searchString)
 		{
-			
-            return View("Index", await _context.Journey.Where( j => j.Departure.ToString().Contains(SearchPhrase)).ToListAsync());
-            
 
-		}
+
+			var result = _context.Journey
+			  .Where(d => d.DepartureStationName.Contains(searchString))
+			  .GroupBy(q => q.ReturnStationName)
+			  .OrderByDescending(g => g.Count())
+			  .Take(5)
+			  .Select(g => g.Key)
+			  .ToList();
+
+			List<MyBikeApp.Models.Journey> newList = new List<MyBikeApp.Models.Journey>();
+			foreach (var item in result)
+			{
+				MyBikeApp.Models.Journey listItem = new MyBikeApp.Models.Journey();
+				listItem.ReturnStationName = item;
+				newList.Add(listItem);
+			}
+
+
+			return View("Index2", newList);
+        }
 
 		// GET: Journey/Details/5
 		public async Task<IActionResult> Details(int? id)

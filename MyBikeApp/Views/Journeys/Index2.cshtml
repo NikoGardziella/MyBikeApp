@@ -1,1 +1,28 @@
-﻿
+﻿@model List<MyBikeApp.Models.Journey>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+
+    <h4>Journey</h4>
+    <hr />
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.ReturnStationName</td>            
+
+             </tr>
+        }
+
+    </tbody>
+
+<div>
+
+    <a asp-action="Index">Back to List</a>
+</div>

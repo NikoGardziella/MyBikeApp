@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Newtonsoft.Json.Linq;
 using static System.Collections.Specialized.BitVector32;
 
 
@@ -19,9 +20,10 @@ namespace MyBikeApp.Models
         public int DurationSec { get; set; }
 
 
+
+
         public Journey()
-        {
-			
+        {			
 			this.Departure = "";
 			this.Return = "";
 			this.DepartureStationId = 0;
@@ -29,8 +31,9 @@ namespace MyBikeApp.Models
 			this.ReturnStationId = 0;
 			this.ReturnStationName = "";
 			this.CoveredDistanceM = 0;
-			this.DurationSec = 0; 
-		}
+			this.DurationSec = 0;
+
+        }
 
 		public Journey InitJourney(Journey journey, string rowData)
 		{
@@ -47,8 +50,12 @@ namespace MyBikeApp.Models
 			journey.Return = data[1];
 			journey.DepartureStationId = int.Parse(data[2]);
 			journey.DepartureStationName = data[3];
-			journey.ReturnStationId = int.Parse(data[4]);
-			journey.ReturnStationName = data[5];
+            int returnStationId;
+            if (int.TryParse(data[4], out returnStationId))
+            {
+                journey.ReturnStationId = returnStationId;
+            }
+            journey.ReturnStationName = data[5];
 
 			distance = CheckDistance(data[6]);
 			if (distance > MIN_DISTANCE)
@@ -61,12 +68,14 @@ namespace MyBikeApp.Models
 		}
 
 		float CheckDistance(string data)
-		{
+        {
 			float result;
-            result = Single.Parse(data);
+            if (float.TryParse(data, out result))
+            {
+                if (result > MIN_DISTANCE)
+                    return result;
+            }
 
-            if (result > MIN_DISTANCE)
-				return result;
 			return 0;
 		}
 
