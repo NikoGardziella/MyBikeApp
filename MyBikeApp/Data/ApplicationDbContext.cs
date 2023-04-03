@@ -11,5 +11,12 @@ namespace MyBikeApp.Data
 		{
 		}
 		public DbSet<MyBikeApp.Models.Journey>? Journey { get; set; }
+		public DbSet<MyBikeApp.Models.Station>? Station { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using JetBrains.Annotations;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MyBikeApp.Data;
 using Newtonsoft.Json.Linq;
 using static System.Collections.Specialized.BitVector32;
 
@@ -34,6 +36,18 @@ namespace MyBikeApp.Models
 			this.DurationSec = 0;
 
         }
+
+    
+
+        public int GetNumberOfTrips()
+		{
+			int number;
+			number = 0;
+
+
+
+			return number;
+		}
 
 		public Journey InitJourney(Journey journey, string rowData)
 		{

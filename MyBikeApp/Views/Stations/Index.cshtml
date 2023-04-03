@@ -1,0 +1,54 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@using X.PagedList.Mvc.Core.Fluent;
+@model X.PagedList.IPagedList<MyBikeApp.Models.Station>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@using (Html.BeginForm("Index", "Stations", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Station name", "Index", new { sortOrder = ViewBag.NameSortParm , currentFilter=ViewBag.CurrentFilter})
+            </th>
+            <th>
+                @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParm , currentFilter=ViewBag.CurrentFilter})
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager( Model , page => Url.Action("Index", new { page }) )

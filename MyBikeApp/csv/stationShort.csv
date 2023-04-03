@@ -1,0 +1,21 @@
+FID,ID,Nimi,Namn,Name,Osoite,Adress,Kaupunki,Stad,Operaattor,Kapasiteet,x,y
+1,501,Hanasaari,Hanaholmen,Hanasaari,Hanasaarenranta 1,Hanaholmsstranden 1,Espoo,Esbo,CityBike Finland,10,24.840319,60.16582
+2,503,Keilalahti,Kägelviken,Keilalahti,Keilalahdentie 2,Kägelviksvägen 2,Espoo,Esbo,CityBike Finland,28,24.827467,60.171524
+3,505,Westendinasema,Westendstationen,Westendinasema,Westendintie 1,Westendvägen 1,Espoo,Esbo,CityBike Finland,16,24.805758,60.168266
+4,507,Golfpolku,Golfstigen,Golfpolku,Golfpolku 3,Golfstigen 3,Espoo,Esbo,CityBike Finland,16,24.796136,60.168143
+5,509,Revontulentie,Norrskensvägen,Revontulentie,Revontulentie 10,Norrskensvägen 10,Espoo,Esbo,CityBike Finland,30,24.802938,60.171551
+6,511,Sateentie,Regnvägen,Sateentie,Sateentie 2,Regnvägen 2,Espoo,Esbo,CityBike Finland,18,24.810688,60.173424
+7,513,Hakalehto,Hagliden,Hakalehto,Merituulentie 18,Havsvindsvägen 18,Espoo,Esbo,CityBike Finland,24,24.79139,60.173567
+8,515,Oravannahkatori,Gråskinnstorget,Oravannahkatori,Oravannahkatori 1,Gråskinnstorget 1,Espoo,Esbo,CityBike Finland,16,24.792559,60.175769
+9,517,Länsituuli,Västanvinden,Länsituuli,Länsituulenkuja 3,Västanvindsgränden 3,Espoo,Esbo,CityBike Finland,24,24.802049,60.175358
+10,518,Tuulimäki,Väderbacken,Tuulimäki,Itätuulenkuja 11,Östanvindsgränden 11,Espoo,Esbo,CityBike Finland,18,24.806051,60.174144
+11,519,Tapionaukio,Tapioplatsen,Tapionaukio,Tapionaukio 9,Tapioplatsen 9,Espoo,Esbo,CityBike Finland,26,24.805825,60.176168
+12,521,Kulttuuriaukio,Kulturplatsen,Kulttuuriaukio,Kulttuuriaukio 2,Kulturplatsen 2,Espoo,Esbo,CityBike Finland,30,24.803942,60.177588
+13,523,Ahertajantie,Flitarvägen,Ahertajantie,Ahertajantie 1,Flitargränden 1,Espoo,Esbo,CityBike Finland,20,24.797984,60.17875
+14,525,Mäntyviita,Tallbysket,Mäntyviita,Mäntyviita 2,Tallbysket 2,Espoo,Esbo,CityBike Finland,10,24.810974,60.178702
+15,527,Otsolahti,Björnviken,Otsolahti,Otsolahdentie 18,Björnviksvägen 18,Espoo,Esbo,CityBike Finland,18,24.817423,60.178655
+16,529,Keilaniemi (M),Kägeludden (M),Keilaniemi (M),Keilaniementie 4,Kägeluddsvägen 4,Espoo,Esbo,CityBike Finland,40,24.82895,60.175233
+17,531,Keilaranta,Kägelstranden,Keilaranta,Keilaranta 13,Kägelstranden 13,Espoo,Esbo,CityBike Finland,24,24.835132,60.178762
+18,532,Betonimies,Betongblandaren,Betonimies,Betonimiehenkuja 1,Betongblandargränden 1,Espoo,Esbo,CityBike Finland,16,24.831804,60.180027
+19,533,Tekniikantie,Teknikvägen,Tekniikantie,Tekniikantie 3,Teknikvägen 3,Espoo,Esbo,CityBike Finland,18,24.824747,60.180806
+20,537,Innopoli,Innopoli,Innopoli,Tekniikantie 14,Teknikvägen 14,Espoo,Esbo,CityBike Finland,20,24.81422,60.185096

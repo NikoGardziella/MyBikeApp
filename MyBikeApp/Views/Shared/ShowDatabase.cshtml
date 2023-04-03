@@ -1,0 +1,36 @@
+﻿
+
+<h4>Update Database</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ReadCsv">
+
+            <div class="form-group">
+                <input type="submit" value="Upload journeys" class="btn btn-primary" />
+            </div>
+           
+        </form>
+
+
+        <form asp-action="ClearDatabase">
+
+            <div class="form-group">
+                <input type="submit" value="Clear" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <form asp-area="" asp-controller="Stations" asp-action="ReadCsv">
+            <div class="form-group">
+                <input type="submit" value="Upload stations" class="btn btn-primary" />
+            </div>
+        </form>
+        <form asp-area="" asp-controller="Stations" asp-action="ClearDatabase">
+            <div class="form-group">
+                <input type="submit" value="Clear stations" class="btn btn-primary" />
+            </div>
+        </form>
+
+
+    </div>
+</div>
