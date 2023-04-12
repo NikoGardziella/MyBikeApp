@@ -33,12 +33,20 @@
                 @Html.ActionLink("Departure", "Index", new { sortOrder = ViewBag.NameSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th>
+                @Html.ActionLink("Departure Time", "Index", new { sortOrder = ViewBag.NameSortParm , currentFilter=ViewBag.CurrentFilter})
+            </th>
+            <th>
                 @Html.ActionLink("Return", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th>
-                @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm , currentFilter=ViewBag.CurrentFilter})
+                @Html.ActionLink("Return Time", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
-
+            <th>
+                @Html.ActionLink("Duration", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
+            </th>
+            <th>
+                @Html.ActionLink("Lenght", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
+            </th>
             <th></th>
         </tr>
     </thead>

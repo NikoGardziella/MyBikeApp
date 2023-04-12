@@ -118,8 +118,12 @@ namespace MyBikeApp.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "return_name_desc" : "";
+            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Duration" : "";
+            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Lenght" : "";
+            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Return Time" : "";
+            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Departure Time" : "";
 
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+         //   ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
             if (searchString != null)
             {
@@ -150,10 +154,19 @@ namespace MyBikeApp.Controllers
                 case "name_desc":
                     m_Journeys = m_Journeys.OrderByDescending(s => s.DepartureStationName);
                     break;
-                case "Date":
-                    m_Journeys = m_Journeys.OrderBy(s => s.Departure);
-                    break;
                 case "date_desc":
+                    m_Journeys = m_Journeys.OrderByDescending(s => s.Departure);
+                    break;
+                case "Lenght":
+                    m_Journeys = m_Journeys.OrderByDescending(s => s.CoveredDistanceM);
+                    break;
+                case "Duration":
+                    m_Journeys = m_Journeys.OrderByDescending(s => s.DurationSec);
+                    break;
+                case "Return Time":
+                    m_Journeys = m_Journeys.OrderByDescending(s => s.Return);
+                    break;
+                case "Departure Time":
                     m_Journeys = m_Journeys.OrderByDescending(s => s.Departure);
                     break;
                 default:
@@ -163,6 +176,14 @@ namespace MyBikeApp.Controllers
             int pageSize = 20;
             int pageNumber = (page ?? 1);
             return View(m_Journeys.ToPagedList(pageNumber, pageSize));
+        }
+
+        public async Task<IActionResult> GetNumberOfTrips(string stationName)
+        {
+            int TripCount = 0;
+
+            
+             return View(TripCount);
         }
 
         // GET: Journeys

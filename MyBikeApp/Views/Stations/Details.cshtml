@@ -1,4 +1,4 @@
-﻿@model List<MyBikeApp.Models.Journey>
+﻿@model SharedViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,17 +11,82 @@
     <hr />
     <dl class="row">
         <tbody>
-            @foreach (var item in Model)
+            <p> Top 5 Destinations from this station  </p>
+            @foreach (var item in Model.JourneysFromStation)
             {
                 <tr>
                     <td>@item.ReturnStationName</td>
+                    
+                </tr>
+            }
+            <p> Top 5 departure stations to this station </p>
+            @foreach (var item in Model.JourneysToStation)
+            {
+                <tr>
+                    <td>@item.DepartureStationName</td>
 
                 </tr>
             }
+
+            <th>
+                <td>@Model.TripsFromThisStation </td>
+            </th>
+            <th>
+                <td>@Model.TripsToThisStation </td>
+            </th>
         </tbody>
-        </dd>
+
     </dl>
 </div>
+
+
+
+
+
+<head>
+    <style>
+        #map {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        function initMap() {           
+
+            let pos = {
+                lat: @Model.lat, lng: @Model.lng
+            };
+            let map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 15, center: pos}
+            );
+            let marker = new google.maps.Marker({position: pos, map: map})
+        }
+        </script>
+    <script
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzqA-6S-F8Ka-EvrKoluV6UMnBDQC0aKg&callback=initMap"
+            async defer>
+
+       </script>
+</body>
+
+
+
+
+<!--
+<iframe width="450"
+        height="250"
+        frameborder="0" style="border:0"
+        referrerpolicy="no-referrer"
+        
+        address = "rajasaari"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCzqA-6S-F8Ka-EvrKoluV6UMnBDQC0aKg&q={address}"
+        allowfullscreen>
+</iframe>-->
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model">Edit</a> |
     <a asp-action="Index">Back to List</a>

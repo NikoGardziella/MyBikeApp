@@ -15,7 +15,7 @@
         <input type="submit" value="Search" />
     </p>
 }
-
+<a href="c:\users\omistaja\source\repos\mybikeapp\mybikeapp\controllers\journeyscontroller.cs">c:\users\omistaja\source\repos\mybikeapp\mybikeapp\controllers\journeyscontroller.cs</a>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -49,6 +49,8 @@
 }
     </tbody>
 </table>
+
+
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager( Model , page => Url.Action("Index", new { page }) )

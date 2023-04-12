@@ -4,12 +4,15 @@ using MyBikeApp.Data;
 using Newtonsoft.Json.Linq;
 using static System.Collections.Specialized.BitVector32;
 
+// my Google api key AIzaSyCzqA-6S-F8Ka-EvrKoluV6UMnBDQC0aKg
 
 namespace MyBikeApp.Models
 {
     public class Journey
     {
 		private const int MIN_DISTANCE = 10;
+        private const int MIN_DURATION= 10;
+
         public int Id { get; set; }
         public string Departure { get; set; }
         public int DepartureStationId { get; set; }
@@ -36,18 +39,6 @@ namespace MyBikeApp.Models
 			this.DurationSec = 0;
 
         }
-
-    
-
-        public int GetNumberOfTrips()
-		{
-			int number;
-			number = 0;
-
-
-
-			return number;
-		}
 
 		public Journey InitJourney(Journey journey, string rowData)
 		{
