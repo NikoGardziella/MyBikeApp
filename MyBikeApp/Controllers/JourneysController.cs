@@ -25,7 +25,7 @@ namespace MyBikeApp.Controllers
     public class JourneysController : Controller
     {
 
-        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\2021-05.csv");
+        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\JourneyParserTest.csv");
 
 		List<Journey> journeys = new List<Journey>();
 
@@ -51,28 +51,28 @@ namespace MyBikeApp.Controllers
 
         public async Task<ActionResult> ReadCsv()
         {
-         //   Console.WriteLine("Reading csv");
+            int AddCount = 0;
+            int ErrorCount = 0; ;
             Task task = Task.Run(async () =>
             {
-                // Dont read first line
                 for (int i = 1; i < csvLines.Length; i++)
                 {
-               //     Console.WriteLine("journey: " + i);
-                    Journey journey = new Journey();
-                    journey = journey.InitJourney(journey, csvLines[i]);
-                  //  journeys.Add(journey);
-                  //  _context.Add(journey);
+                    
+                  Journey journey = new Journey();
+                  journey = journey.InitJourney(journey, csvLines[i]);
+                  
                   if(journey != null)
                     {
                         _context.Add(journey);
-                      //  await Create(journey);
-                    }
-                   // _context.SaveChanges();
-
+						AddCount++;
+					}
+                  else
+                        ErrorCount++;
                 }
                     
-             //   Console.WriteLine("added "+ csvLines.Length +" journeys");
-                await _context.SaveChangesAsync();
+                Console.WriteLine("added "+ AddCount + " journeys to SQL database");
+				Console.WriteLine("There was an error in " + ErrorCount + " journeys and they were not added to the database");
+				await _context.SaveChangesAsync();
             });
             await task;
             return View();

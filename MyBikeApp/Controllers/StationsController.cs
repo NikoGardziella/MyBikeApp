@@ -20,11 +20,13 @@ namespace MyBikeApp.Controllers
 {
     public class StationsController : Controller
     {
+		// Dont read first line
+		const int LINES_IN_BEGIN_CSV = 1;
 		private StationsController _Instance = null; public StationsController Instance { get { return _Instance; } set { _Instance = value; } }
         
 
 		private readonly ApplicationDbContext _context;
-		String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv");
+		String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\StationParseTest.csv");
 
 
 		public StationsController(ApplicationDbContext context)
@@ -34,23 +36,29 @@ namespace MyBikeApp.Controllers
 
 		public async Task<ActionResult> ReadCsv()
 		{
-		//	Console.WriteLine("Reading csv");
+			int AddCount = 0;
+			int ErrorCount = 0; ;
 			Task task = Task.Run(async () =>
 			{
-				// Dont read first line
-				for (int i = 1; i < csvLines.Length; i++)
+				
+				for (int i = LINES_IN_BEGIN_CSV; i < csvLines.Length; i++)
 				{
-			//		Console.WriteLine("station: " + i);
+
                     Station station = new Station();
 					station = station.InitStation(station, csvLines[i]);
 					if (station != null)
 					{
 						await Create(station);
+						AddCount++;
 					}
-					// _context.SaveChanges();
+					else
+					{
+						ErrorCount++;
+					}
 
 				}
-			//	Console.WriteLine("added " + csvLines.Length + " stations");
+				Console.WriteLine("added " + AddCount + " stations to SQL database");
+				Console.WriteLine("There was an error in " + ErrorCount + " stations and they were not added to the database");
 				await _context.SaveChangesAsync();
 			});
 
@@ -60,14 +68,9 @@ namespace MyBikeApp.Controllers
 
 		public async Task<ActionResult> ClearDatabase()
 		{
-	//		int beforeCount = _context.Station.Count();
-	//		Console.WriteLine("before clear:" + beforeCount);
             if(_context.Station != null)
 			   _context.Station.RemoveRange(_context.Station.Where(x => x.Name != ""));
 			_context.SaveChanges();
-
-		//	int afterCount = _context.Station.Count();
-		//	Console.WriteLine("after clear: " + afterCount);
 			return View("ShowDatabase");
 		}
 

@@ -1,0 +1,28 @@
+Departure,Return,Departure station id,Departure station name,Return station id,Return station name,Covered distance (m),Duration (sec.)
+,2021-06-01T00:05:46,94,Laajalahden aukio,100,Teljäntie,2043,500
+2021-05-31T23:56:59,,82,Töölöntulli,113,Pasilan asema,1870,611
+2021-05-31T23:56:44,2021-06-01T00:03:26,123,,121,Vilhonvuorenkatu,1025,399
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,,4318,2009
+2021-05-31T23:56:11,2021-06-01T00:02:02,4,Viiskulma,65,Hernesaarenranta,,350
+2021-05-31T23:54:48,2021-06-01T00:00:57,292,Koskelan varikko,133,Paavalinpuisto,1713,
+2021-05-31T23:54:11,2021-06-01T00:17:11,34,Kansallismuseo,81,Stenbäckinkatu,1,1377
+2021-05-31T23:53:04,2021-06-01T00:14:52,240,Viikin normaalikoulu,281,Puotila (M),9,1304
+2021-05-31T23:52:03,2021-06-01T00:15:16,116,Linnanmäki,117,Brahen puistikko,3344,1
+2021-05-31T23:50:19,2021-06-01T00:05:58,116,Linnanmäki,145,Pohjolankatu,3248,9
+2021-05-31T23:50:05,2021-06-01T00:01:22,147,Käpylän asema,232,Oulunkylän asema,-1,672
+2021-05-31T23:50:00,2021-05-31T23:55:48,69,Kalevankatu,62,Välimerenkatu,1131,-1
+2021-05-31T23:49:59,2021-05-31T23:59:49,147,Käpylän asema,232,Oulunkylän asema,"3,45345345345345E+031",589
+2021-05-31T23:49:59,2021-05-31T23:55:38,69,Kalevankatu,62,Välimerenkatu,1125,"3,45345345345347E+026"
+2021-05-31T23:49:36,2021-06-01T00:40:20,547,Jämeräntaival,547,Jämeräntaival,"-5,46456456456456E+033",3040
+2021-05-31T23:49:18,2021-06-01T00:05:09,201,Länsisatamankuja,41,Ympyrätalo,4245,"-5,43645645645646E+023"
+2021-05-31T23:48:53,2021-06-01T00:03:49,30,a,50,Melkonkuja,2656,892
+2021-05-31T23:48:44,2021-05-31T23:56:06,235,Katariina Saksilaisen katu,239,b,2107,437
+2021-05-31T23:47:49,2021-05-31T23:51:11,727,Ratsutori,713,Upseerinkatu,a,198
+2021-05-31T23:46:14,2021-05-31T23:55:58,137,Arabian kauppakeskus,44,Sörnäinen (M),1970,b
+2021-05-31T23:46:13,2021-05-31T23:55:22,137,Arabian kauppakeskus,118,Fleminginkatu,"1,95223423432423E+026",544
+2021-05-31T23:45:26,2021-06-01T00:12:04,264,Eränkävijäntori,267,Roihupelto,#,1597
+2021-05-31T23:45:15,2021-05-31T23:51:54,49,Annankatu,162,Leppäsuonaukio,1186,"3,94234234234234E+028"
+2021-05-31T23:45:09,2021-05-31T23:49:23,63,Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432,68,Albertinkatu,1841,249
+2021-05-31T23:44:27,2021-05-31T23:49:46,727,Ratsutori,711,KirjurinkujaJätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432Jätkäsaarenlaituri4523423423432,974,314
+2021-05-31T23:48:53,2021-06-01T00:03:49,-1,Ratsutori,50,Melkonkuja,2656,892
+2021-05-31T23:48:53,2021-06-01T00:03:49,"3,01231231231231E+021",Ratsutori,50,Melkonkuja,2656,892

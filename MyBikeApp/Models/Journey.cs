@@ -11,7 +11,9 @@ namespace MyBikeApp.Models
     public class Journey
     {
 		private const int MIN_DISTANCE = 10;
-        private const int MIN_DURATION= 10;
+        private const int MAX_DISTANCE = 1000000000;
+		private const int MIN_NAME = 1;
+		private const int MAX_NAME = 50;
 
         public int Id { get; set; }
         public string Departure { get; set; }
@@ -40,49 +42,70 @@ namespace MyBikeApp.Models
 
         }
 
-		public Journey InitJourney(Journey journey, string rowData)
+		public Journey? InitJourney(Journey journey, string rowData)
 		{
 			string[] data = rowData.Split(',');
 			if (data == null)
 				return null;
-			for (int i = 0; i < data.Length; i++)
-			{
-				if (data[i] == null)
-					return null;
-			}
-			float distance;
-			journey.Departure = data[0];
-			journey.Return = data[1];
-			journey.DepartureStationId = int.Parse(data[2]);
-			journey.DepartureStationName = data[3];
-            int returnStationId;
-            if (int.TryParse(data[4], out returnStationId))
-            {
-                journey.ReturnStationId = returnStationId;
-            }
-            journey.ReturnStationName = data[5];
 
-			distance = CheckDistance(data[6]);
-			if (distance > MIN_DISTANCE)
-				journey.CoveredDistanceM = distance;
-			else
+
+			journey.Departure = ParseName(data[0]);
+			if (journey.Departure == "")
 				return null;
-            
-			journey.DurationSec = int.Parse(data[7]);
+			journey.Return = ParseName(data[1]);
+			if (journey.Return == "")
+				return null;
+
+			journey.DepartureStationId = ParseNumber(data[2]);
+			if (journey.DepartureStationId == 0)
+				return null;
+
+			journey.DepartureStationName = ParseName(data[3]);
+			if (journey.DepartureStationName == "")
+				return null;
+
+			journey.ReturnStationId = ParseNumber(data[4]);
+			if (journey.ReturnStationId == 0)
+				return null;
+			
+			journey.ReturnStationName = ParseName(data[5]);
+			if (journey.ReturnStationName == "")
+				return null;
+
+			journey.CoveredDistanceM = ParseNumber(data[6]);
+			if (journey.CoveredDistanceM == 0)
+				return null;
+
+			journey.DurationSec = ParseNumber(data[7]);
+			if (journey.DurationSec == 0)
+				return null;
+
 			return journey;
 		}
 
-		float CheckDistance(string data)
-        {
-			float result;
-            if (float.TryParse(data, out result))
-            {
-                if (result > MIN_DISTANCE)
-                    return result;
-            }
-
+		private string ParseName(string name)
+		{
+			string result;
+			result = name;
+			if(result.Length > MIN_NAME && result.Length < MAX_NAME && result != null)
+			{
+				return result;
+			}
+			return "";
+		}
+		private int ParseNumber(string name)
+		{
+			int result = 0;
+			if(int.TryParse(name, out result))
+			{
+				if(result > MIN_DISTANCE && result < MAX_DISTANCE)
+				{
+					return result;
+				}
+			}
 			return 0;
 		}
+
 
 
 		public override string ToString()
