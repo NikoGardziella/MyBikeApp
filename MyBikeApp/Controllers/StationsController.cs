@@ -113,18 +113,11 @@ namespace MyBikeApp.Controllers
 					m_Stations = m_Stations.OrderBy(s => s.Name);
 					break;
 			}
-			int pageSize = 20;
+			int pageSize = 50;
 			int pageNumber = (page ?? 1);
 			return View(m_Stations.ToPagedList(pageNumber, pageSize));
 		}
 
-		// GET: Stations
-	/*	public async Task<IActionResult> Index()
-        {
-              return _context.Station != null ? 
-                          View(await _context.Station.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Station'  is null.");
-        } */
 
         // GET: Stations/Details/5 Show station details
         public async Task<IActionResult> Details(int? id)
@@ -160,14 +153,11 @@ namespace MyBikeApp.Controllers
 
 			string temp_lat = _lat.ToString();
 			string temp_lng = _lng.ToString();
-			// Console.WriteLine(temp_lat);
-			// Console.WriteLine(temp_lng);
 
 			if (!double.TryParse(temp_lat, System.Globalization.NumberStyles.Any, culture, out StationInfo.lat))
 				Console.WriteLine("Error parsing lat");
 			if (!double.TryParse(temp_lng, System.Globalization.NumberStyles.Any, culture, out StationInfo.lng))
 				Console.WriteLine("Error parsing long");
-			//Console.Write("lat: " + StationInfo.lat + " lng: " + StationInfo.lng);
 		}
 		public void GetAverageDistances(SharedViewModel StationInfo, Station station)
         {
@@ -186,14 +176,12 @@ namespace MyBikeApp.Controllers
 			  .Select(d => d.CoveredDistance).Sum());
 			if(StationInfo.TripsFromThisStation > 0)
 				StationInfo.AverageDistanceFromStation = StationInfo.AverageDistanceFromStation / StationInfo.TripsFromThisStation;
-			//Console.Write("AverageDistanceFromStation: " + StationInfo.AverageDistanceFromStation);
 
 			StationInfo.AverageDistanceToStation = ((int)_context.Journey
 			  .Where(d => d.ReturnStationName.Contains(station.Name))
 			  .Select(d => d.CoveredDistance).Sum());
 			if(StationInfo.TripsToThisStation > 0)
 				StationInfo.AverageDistanceToStation = StationInfo.AverageDistanceToStation / StationInfo.TripsToThisStation;
-			//Console.Write("AverageDistanceToStation: " + StationInfo.AverageDistanceToStation);
 		}
 
 		public void GetTopFiveDestinations(SharedViewModel StationInfo, Station station)
@@ -231,9 +219,6 @@ namespace MyBikeApp.Controllers
 				StationInfo.JourneysToStation.Add(listItem);
 			}
 		}
-
-		
-       
 
 		public static CultureInfo CorrectNumberFormat()
 		{

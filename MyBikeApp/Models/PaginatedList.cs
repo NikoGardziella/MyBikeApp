@@ -14,7 +14,6 @@ namespace MyBikeApp.Models
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             this.AddRange(items);
         }
-
         public bool PreviousPage
         {
             get
@@ -22,7 +21,6 @@ namespace MyBikeApp.Models
                 return(PageIndex > 1);
             }
         }
-
         public bool NextPage
         {
             get
@@ -30,7 +28,6 @@ namespace MyBikeApp.Models
                 return (PageIndex > TotalPages);
             }
         }
-
         public static async Task<PaginatedList<T>> CreateASync(IQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = await source.CountAsync();

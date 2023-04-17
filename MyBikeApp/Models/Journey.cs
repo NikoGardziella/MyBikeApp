@@ -28,9 +28,6 @@ namespace MyBikeApp.Models
         public float CoveredDistance { get; set; }
         public int Duration { get; set; }
 
-
-
-
         public Journey()
         {			
 			this.Departure = "";
@@ -41,7 +38,6 @@ namespace MyBikeApp.Models
 			this.ReturnStationName = "";
 			this.CoveredDistance = 0;
 			this.Duration = 0;
-
         }
 
 		public Journey? InitJourney(Journey journey, string rowData)
@@ -49,7 +45,6 @@ namespace MyBikeApp.Models
 			string[] data = rowData.Split(',');
 			if (data == null)
 				return null;
-
 
 			journey.Departure = ParseName(data[0]);
 			if (journey.Departure == "")
@@ -84,7 +79,6 @@ namespace MyBikeApp.Models
 				return null;
 			journey.Duration /= MINUTE;
 
-
             return journey;
 		}
 
@@ -111,15 +105,12 @@ namespace MyBikeApp.Models
 			return 0;
 		}
 
-
-
 		public override string ToString()
 			
 		{
             string str = $"{Departure} {Return}: " + $"{DepartureStationId} {DepartureStationName} " + $"{ReturnStationId} {ReturnStationName} " + $"{CoveredDistance} {Duration}";
 
 			return str;
-		} 
-
+		}
 	}
 }

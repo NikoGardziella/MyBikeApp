@@ -20,14 +20,12 @@ namespace MyBikeApp.Models
         readonly System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 		public Station()
         {
-          //  this. = 0;
             this.Name = "";
             this.Address = "";
             this.Lat = "";
             this.Lon = "";
         }
-
-     
+		     
         public Station? InitStation(Station station, string rowData)
         {
             customCulture.NumberFormat.NumberDecimalSeparator = ".";

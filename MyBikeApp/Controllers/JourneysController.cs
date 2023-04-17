@@ -19,19 +19,13 @@ using System.Linq;
 using X.PagedList;
 using System.Drawing.Printing;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using PagedList;
+
 
 namespace MyBikeApp.Controllers
 {
     public class JourneysController : Controller
     {
-
-       // String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\JourneyParserTest.csv");
-
         String[] files = System.IO.Directory.GetFiles(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\");
-	//	var directoryPath = @"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\JourneyParserTest.csv";
-	//	string[] csvFiles = Directory.GetFiles(directoryPath, "*.csv");
-
 		List<Journey> journeys = new List<Journey>();
 
         private readonly ApplicationDbContext _context;
@@ -41,35 +35,7 @@ namespace MyBikeApp.Controllers
             _context = context;
         }
 
-
-		/*   public void CsvHelperReader()
-		   {
-			   using (var streamReader = new StreamReader(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv"))
-			   {
-				   using (var csvreader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
-				   {
-					   var record = csvreader.GetRecord<dynamic>();
-
-				   }
-			   }
-		   } */
-
-		public async 
-
-		/*   public void CsvHelperReader()
-		   {
-			   using (var streamReader = new StreamReader(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv"))
-			   {
-				   using (var csvreader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
-				   {
-					   var record = csvreader.GetRecord<dynamic>();
-
-				   }
-			   }
-		   } */
-
-		Task
-        CsvFile (string file)
+        public async Task CsvFile(string file)
         {
 			int AddCount = 0;
 			int ErrorCount = 0; ;
@@ -109,14 +75,8 @@ namespace MyBikeApp.Controllers
     
         public async Task<ActionResult> ClearDatabase()
         {
-       //     int beforeCount = _context.Journey.Count();
-        //    Console.WriteLine("before clear:" + beforeCount);           
-            
             _context.Journey.RemoveRange(_context.Journey.Where(x=>x.DepartureStationName != ""));
             _context.SaveChanges();
-
-       //     int afterCount = _context.Journey.Count();
-       //     Console.WriteLine("after clear: " + afterCount);
             return View("ShowDatabase");
         }
 
@@ -136,10 +96,7 @@ namespace MyBikeApp.Controllers
 
             var m_Journeys = await _context.Journey.ToListAsync();
             return Ok(m_Journeys);
-        }
-
-
-     
+        }     
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             
@@ -150,9 +107,7 @@ namespace MyBikeApp.Controllers
             ViewBag.LenghtSortParm = String.IsNullOrEmpty(sortOrder) ? "Lenght" : "";
             ViewBag.ReturnTimeSortParm = String.IsNullOrEmpty(sortOrder) ? "Return Time" : "";
             ViewBag.DepartureTimeSortParm = String.IsNullOrEmpty(sortOrder) ? "Departure Time" : "";
-            //sortOrder = String.IsNullOrEmpty(sortOrder);
-         //   ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-         
+
             if (searchString != null)
             {
                 page = 1;
@@ -167,7 +122,6 @@ namespace MyBikeApp.Controllers
             var m_Journeys = from s in _context.Journey
                              select s;
 
-         //   searchString = TempData["SearchString"] as string;
             if (!String.IsNullOrEmpty(searchString))
             {
                 m_Journeys = m_Journeys.Where(s => s.DepartureStationName.Contains(searchString)
@@ -204,28 +158,8 @@ namespace MyBikeApp.Controllers
             }
             int pageSize = 100;
             int pageNumber = (page ?? 1);
-            return View(m_Journeys.ToPagedList(pageNumber, pageSize).ToPagedList());
+            return View(m_Journeys.ToPagedList(pageNumber, pageSize));
         }
-
-        public async Task<IActionResult> GetNumberOfTrips(string stationName)
-        {
-            int TripCount = 0;
-
-            
-             return View(TripCount);
-        }
-
-        // GET: Journeys
-        /*	public async Task<IActionResult> Index(int pageNumber = 1)
-            {
-                await ReadCsv();
-                WriteJourneyConsole();
-
-                return View(await PaginatedList<Journey>.CreateASync(_context.Journey, pageNumber,5));
-              //  return View(journeys);
-            }*/
-
-
 
         // GET: Stations/ShowSearchForm
         public async Task<IActionResult> ShowSearchForm()
@@ -244,7 +178,6 @@ namespace MyBikeApp.Controllers
         // GET: Stations/ShowSearchResults top 5
         public async Task<ViewResult> ShowSearchResults(String searchString)
 		{
-
 			var result = _context.Journey
 			  .Where(d => d.DepartureStationName.Contains(searchString))
 			  .GroupBy(q => q.ReturnStationName)
@@ -262,18 +195,6 @@ namespace MyBikeApp.Controllers
 			}
 			return View("Index2", newList);
         }
-
-    /*    // GET: Stations/ShowSearchResults
-        public async Task<ViewResult> ShowJourneySearchResults(String searchString)
-        {
-            var result = _context.Journey
-              .Where(d => d.DepartureStationName.Contains(searchString))
-              .ToList();
-
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            return View(result.ToPagedList(pageNumber, pageSize));
-        } */
 
         // GET: Journey/Details/5
         public async Task<IActionResult> Details(int? id)
