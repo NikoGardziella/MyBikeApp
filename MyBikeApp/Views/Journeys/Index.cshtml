@@ -30,22 +30,22 @@
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Departure", "Index", new { sortOrder = ViewBag.NameSortParm , currentFilter=ViewBag.CurrentFilter})
+                @Html.ActionLink("Departure", "Index", new { sortOrder = ViewBag.DepartureSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th>
-                @Html.ActionLink("Departure Time", "Index", new { sortOrder = ViewBag.NameSortParm , currentFilter=ViewBag.CurrentFilter})
+                @Html.ActionLink("Departure Time", "Index", new { sortOrder = ViewBag.DepartureTimeSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th>
                 @Html.ActionLink("Return", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th>
-                @Html.ActionLink("Return Time", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
+                @Html.ActionLink("Return Time", "Index", new { sortOrder = ViewBag.ReturnTimeSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th>
-                @Html.ActionLink("Duration", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
+                @Html.ActionLink("Duration", "Index", new { sortOrder = ViewBag.DurationSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th>
-                @Html.ActionLink("Lenght", "Index", new { sortOrder = ViewBag.ReturnSortParm , currentFilter=ViewBag.CurrentFilter})
+                @Html.ActionLink("Lenght", "Index", new { sortOrder = ViewBag.LenghtSortParm , currentFilter=ViewBag.CurrentFilter})
             </th>
             <th></th>
         </tr>
@@ -60,12 +60,11 @@
                 <td>@item.Departure</td>
                 <td>@item.ReturnStationName</td>
                 <td>@item.Return</td>
-                <td>@item.DurationSec</td>
-                <td>@item.CoveredDistanceM</td>
+                <td>@item.Duration minutes</td>
+                <td>@item.CoveredDistance km</td>
 
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
              </tr>

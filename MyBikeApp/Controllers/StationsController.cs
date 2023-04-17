@@ -26,7 +26,7 @@ namespace MyBikeApp.Controllers
         
 
 		private readonly ApplicationDbContext _context;
-		String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\StationParseTest.csv");
+		String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\else\Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv");
 
 
 		public StationsController(ApplicationDbContext context)
@@ -147,7 +147,7 @@ namespace MyBikeApp.Controllers
 			GetTopFiveDepartureStations(StationInfo, station);
 			GetAverageDistances(StationInfo, station);
 			GetGoogleMapsCoordinates(StationInfo, station);
-			
+			StationInfo.StationName = station.Name;
             return View("Details", StationInfo);
 		}
 		public void GetGoogleMapsCoordinates(SharedViewModel StationInfo, Station station)
@@ -164,9 +164,9 @@ namespace MyBikeApp.Controllers
 			// Console.WriteLine(temp_lng);
 
 			if (!double.TryParse(temp_lat, System.Globalization.NumberStyles.Any, culture, out StationInfo.lat))
-				Console.WriteLine("Error parsin lat");
+				Console.WriteLine("Error parsing lat");
 			if (!double.TryParse(temp_lng, System.Globalization.NumberStyles.Any, culture, out StationInfo.lng))
-				Console.WriteLine("Error parsin long");
+				Console.WriteLine("Error parsing long");
 			//Console.Write("lat: " + StationInfo.lat + " lng: " + StationInfo.lng);
 		}
 		public void GetAverageDistances(SharedViewModel StationInfo, Station station)
@@ -183,14 +183,14 @@ namespace MyBikeApp.Controllers
 
 			StationInfo.AverageDistanceFromStation = ((int)_context.Journey
 			  .Where(d => d.DepartureStationName.Contains(station.Name))
-			  .Select(d => d.CoveredDistanceM).Sum());
+			  .Select(d => d.CoveredDistance).Sum());
 			if(StationInfo.TripsFromThisStation > 0)
 				StationInfo.AverageDistanceFromStation = StationInfo.AverageDistanceFromStation / StationInfo.TripsFromThisStation;
 			//Console.Write("AverageDistanceFromStation: " + StationInfo.AverageDistanceFromStation);
 
 			StationInfo.AverageDistanceToStation = ((int)_context.Journey
 			  .Where(d => d.ReturnStationName.Contains(station.Name))
-			  .Select(d => d.CoveredDistanceM).Sum());
+			  .Select(d => d.CoveredDistance).Sum());
 			if(StationInfo.TripsToThisStation > 0)
 				StationInfo.AverageDistanceToStation = StationInfo.AverageDistanceToStation / StationInfo.TripsToThisStation;
 			//Console.Write("AverageDistanceToStation: " + StationInfo.AverageDistanceToStation);

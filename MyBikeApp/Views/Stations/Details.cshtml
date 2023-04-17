@@ -4,43 +4,29 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>@Model.StationName</h1>
+
+
+<h4> Top 5 Destinations from this station:  </h4>
+    @foreach (var item in Model.JourneysFromStation)
+    {
+            <td>@item.ReturnStationName, </td>
+    }
+
+
+<h4> Top 5 departure stations to this station: </h4>
+    @foreach (var item in Model.JourneysToStation)
+    {
+            <td>@item.DepartureStationName, </td>
+    }
+
 
 <div>
-    <h4>Station</h4>
-    <hr />
-    <dl class="row">
-        <tbody>
-            <p> Top 5 Destinations from this station  </p>
-            @foreach (var item in Model.JourneysFromStation)
-            {
-                <tr>
-                    <td>@item.ReturnStationName</td>
-                    
-                </tr>
-            }
-            <p> Top 5 departure stations to this station </p>
-            @foreach (var item in Model.JourneysToStation)
-            {
-                <tr>
-                    <td>@item.DepartureStationName</td>
-
-                </tr>
-            }
-
-            <th>
-                <td>@Model.TripsFromThisStation </td>
-            </th>
-            <th>
-                <td>@Model.TripsToThisStation </td>
-            </th>
-        </tbody>
-
-    </dl>
+    <h5>Total ammount of trips starting from this station: @Model.TripsFromThisStation </h5>
 </div>
-
-
-
+<div>
+    <h5>Total ammount of trips ending to this station: @Model.TripsToThisStation </h5>
+</div>
 
 
 <head>

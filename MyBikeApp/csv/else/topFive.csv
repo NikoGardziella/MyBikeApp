@@ -1,0 +1,18 @@
+Departure,Return,Departure station id,Departure station name,Return station id,Return station name,Covered distance (m),Duration (sec.)
+2021-05-31T23:57:25,2021-06-01T00:05:46,94,Laajalahden aukio,100,Teljäntie,2043,500
+2021-05-31T23:56:59,2021-06-01T00:07:14,82,Viiskulma,113,Pasilan asema,1870,611
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Vilhonvuorenkatu,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Vilhonvuorenkatu,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Pasilan asema,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,joku,4318,2009
+2021-05-31T23:56:44,2021-06-01T00:03:26,123,Viiskulma,121,Vilhonvuorenkatu,1025,399
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,joku,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Vilhonvuorenkatu,4318,2009
+2021-05-31T23:56:59,2021-06-01T00:07:14,82,Viiskulma,113,Vilhonvuorenkatu,1870,611
+2021-05-31T23:56:44,2021-06-01T00:03:26,123,Viiskulma,121,Hernesaarenranta,1025,399
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Hernesaarenranta,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Hernesaarenranta,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Liisanpuisto,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,Liisanpuisto,4318,2009
+2021-05-31T23:56:23,2021-06-01T00:29:58,4,Viiskulma,65,joku,4318,2009
+2021-05-31T23:57:25,2021-06-01T00:05:46,94,Laajalahden aukio,100,Teljäntie,2043,500

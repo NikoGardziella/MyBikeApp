@@ -19,13 +19,18 @@ using System.Linq;
 using X.PagedList;
 using System.Drawing.Printing;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PagedList;
 
 namespace MyBikeApp.Controllers
 {
     public class JourneysController : Controller
     {
 
-        String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\JourneyParserTest.csv");
+       // String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\JourneyParserTest.csv");
+
+        String[] files = System.IO.Directory.GetFiles(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\");
+	//	var directoryPath = @"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\JourneyParserTest.csv";
+	//	string[] csvFiles = Directory.GetFiles(directoryPath, "*.csv");
 
 		List<Journey> journeys = new List<Journey>();
 
@@ -37,42 +42,65 @@ namespace MyBikeApp.Controllers
         }
 
 
-     /*   public void CsvHelperReader()
-        {
-            using (var streamReader = new StreamReader(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv"))
-            {
-                using (var csvreader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
-                {
-                    var record = csvreader.GetRecord<dynamic>();
+		/*   public void CsvHelperReader()
+		   {
+			   using (var streamReader = new StreamReader(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv"))
+			   {
+				   using (var csvreader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+				   {
+					   var record = csvreader.GetRecord<dynamic>();
 
-                }
-            }
-        } */
+				   }
+			   }
+		   } */
+
+		public async 
+
+		/*   public void CsvHelperReader()
+		   {
+			   using (var streamReader = new StreamReader(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\shortlist.csv"))
+			   {
+				   using (var csvreader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+				   {
+					   var record = csvreader.GetRecord<dynamic>();
+
+				   }
+			   }
+		   } */
+
+		Task
+        CsvFile (string file)
+        {
+			int AddCount = 0;
+			int ErrorCount = 0; ;
+			string[] lines = System.IO.File.ReadAllLines(file);
+			for (int i = 1; i < lines.Length; i++)
+			{
+				Journey journey = new Journey();
+				journey = journey.InitJourney(journey, lines[i]);
+
+				if (journey != null)
+				{
+					_context.Add(journey);
+					AddCount++;
+				}
+				else
+					ErrorCount++;
+			}
+			Console.WriteLine("added " + AddCount + " journeys to SQL database");
+			Console.WriteLine("There was an error in " + ErrorCount + " journeys and they were not added to the database");
+			await _context.SaveChangesAsync();
+		}
 
         public async Task<ActionResult> ReadCsv()
         {
-            int AddCount = 0;
-            int ErrorCount = 0; ;
+            
             Task task = Task.Run(async () =>
             {
-                for (int i = 1; i < csvLines.Length; i++)
+                foreach (var file in files)
                 {
-                    
-                  Journey journey = new Journey();
-                  journey = journey.InitJourney(journey, csvLines[i]);
-                  
-                  if(journey != null)
-                    {
-                        _context.Add(journey);
-						AddCount++;
-					}
-                  else
-                        ErrorCount++;
+					await CsvFile(file);
                 }
-                    
-                Console.WriteLine("added "+ AddCount + " journeys to SQL database");
-				Console.WriteLine("There was an error in " + ErrorCount + " journeys and they were not added to the database");
-				await _context.SaveChangesAsync();
             });
             await task;
             return View();
@@ -116,15 +144,15 @@ namespace MyBikeApp.Controllers
         {
             
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DepartureSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "return_name_desc" : "";
-            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Duration" : "";
-            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Lenght" : "";
-            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Return Time" : "";
-            ViewBag.ReturnSortParm = String.IsNullOrEmpty(sortOrder) ? "Departure Time" : "";
-
+            ViewBag.DurationSortParm = String.IsNullOrEmpty(sortOrder) ? "Duration" : "";
+            ViewBag.LenghtSortParm = String.IsNullOrEmpty(sortOrder) ? "Lenght" : "";
+            ViewBag.ReturnTimeSortParm = String.IsNullOrEmpty(sortOrder) ? "Return Time" : "";
+            ViewBag.DepartureTimeSortParm = String.IsNullOrEmpty(sortOrder) ? "Departure Time" : "";
+            //sortOrder = String.IsNullOrEmpty(sortOrder);
          //   ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-
+         
             if (searchString != null)
             {
                 page = 1;
@@ -135,17 +163,17 @@ namespace MyBikeApp.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-
+            
             var m_Journeys = from s in _context.Journey
                              select s;
-            
 
-
+         //   searchString = TempData["SearchString"] as string;
             if (!String.IsNullOrEmpty(searchString))
             {
                 m_Journeys = m_Journeys.Where(s => s.DepartureStationName.Contains(searchString)
                                        || s.ReturnStationName.Contains(searchString));
             }
+            
             switch (sortOrder)
             {
                 case "return_name_desc":
@@ -158,10 +186,11 @@ namespace MyBikeApp.Controllers
                     m_Journeys = m_Journeys.OrderByDescending(s => s.Departure);
                     break;
                 case "Lenght":
-                    m_Journeys = m_Journeys.OrderByDescending(s => s.CoveredDistanceM);
+                    m_Journeys = m_Journeys.OrderByDescending(s => s.CoveredDistance);
                     break;
                 case "Duration":
-                    m_Journeys = m_Journeys.OrderByDescending(s => s.DurationSec);
+                    m_Journeys = m_Journeys.OrderByDescending(s => s.Duration);
+                    Console.WriteLine("sorting by duration");
                     break;
                 case "Return Time":
                     m_Journeys = m_Journeys.OrderByDescending(s => s.Return);
@@ -173,9 +202,9 @@ namespace MyBikeApp.Controllers
                     m_Journeys = m_Journeys.OrderBy(s => s.DepartureStationName);
                     break;
             }
-            int pageSize = 20;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
-            return View(m_Journeys.ToPagedList(pageNumber, pageSize));
+            return View(m_Journeys.ToPagedList(pageNumber, pageSize).ToPagedList());
         }
 
         public async Task<IActionResult> GetNumberOfTrips(string stationName)

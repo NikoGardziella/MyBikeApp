@@ -14,6 +14,8 @@ namespace MyBikeApp.Models
         private const int MAX_DISTANCE = 1000000000;
 		private const int MIN_NAME = 1;
 		private const int MAX_NAME = 50;
+		private const int KILOMETER = 1000;
+		private const int MINUTE = 60;
 
         public int Id { get; set; }
         public string Departure { get; set; }
@@ -23,8 +25,8 @@ namespace MyBikeApp.Models
         public string Return { get; set; }
         public int ReturnStationId { get; set; }
         public string ReturnStationName { get; set; }
-        public float CoveredDistanceM { get; set; }
-        public int DurationSec { get; set; }
+        public float CoveredDistance { get; set; }
+        public int Duration { get; set; }
 
 
 
@@ -37,8 +39,8 @@ namespace MyBikeApp.Models
 			this.DepartureStationName = "";
 			this.ReturnStationId = 0;
 			this.ReturnStationName = "";
-			this.CoveredDistanceM = 0;
-			this.DurationSec = 0;
+			this.CoveredDistance = 0;
+			this.Duration = 0;
 
         }
 
@@ -72,15 +74,18 @@ namespace MyBikeApp.Models
 			if (journey.ReturnStationName == "")
 				return null;
 
-			journey.CoveredDistanceM = ParseNumber(data[6]);
-			if (journey.CoveredDistanceM == 0)
+			journey.CoveredDistance = ParseNumber(data[6]);
+			if (journey.CoveredDistance == 0)
 				return null;
+			journey.CoveredDistance /= KILOMETER;
 
-			journey.DurationSec = ParseNumber(data[7]);
-			if (journey.DurationSec == 0)
+            journey.Duration = ParseNumber(data[7]);
+			if (journey.Duration == 0)
 				return null;
+			journey.Duration /= MINUTE;
 
-			return journey;
+
+            return journey;
 		}
 
 		private string ParseName(string name)
@@ -111,7 +116,7 @@ namespace MyBikeApp.Models
 		public override string ToString()
 			
 		{
-            string str = $"{Departure} {Return}: " + $"{DepartureStationId} {DepartureStationName} " + $"{ReturnStationId} {ReturnStationName} " + $"{CoveredDistanceM} {DurationSec}";
+            string str = $"{Departure} {Return}: " + $"{DepartureStationId} {DepartureStationName} " + $"{ReturnStationId} {ReturnStationName} " + $"{CoveredDistance} {Duration}";
 
 			return str;
 		} 
