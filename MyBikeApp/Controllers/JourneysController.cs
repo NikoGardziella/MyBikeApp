@@ -25,8 +25,12 @@ namespace MyBikeApp.Controllers
 {
     public class JourneysController : Controller
     {
-        String[] files = System.IO.Directory.GetFiles(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\");
-		List<Journey> journeys = new List<Journey>();
+
+        private const int JOURNEYS_PER_PAGE = 200;
+        String[] files = System.IO.Directory.GetFiles(Environment.CurrentDirectory, @"csv\");
+      //  String[] csvLines = System.IO.File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, @"csv\else\", "Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv"));
+
+        List<Journey> journeys = new List<Journey>();
 
         private readonly ApplicationDbContext _context;
 
@@ -156,7 +160,7 @@ namespace MyBikeApp.Controllers
                     m_Journeys = m_Journeys.OrderBy(s => s.DepartureStationName);
                     break;
             }
-            int pageSize = 100;
+            int pageSize = JOURNEYS_PER_PAGE;
             int pageNumber = (page ?? 1);
             return View(m_Journeys.ToPagedList(pageNumber, pageSize));
         }

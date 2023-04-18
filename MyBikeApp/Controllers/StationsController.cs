@@ -21,15 +21,15 @@ namespace MyBikeApp.Controllers
     public class StationsController : Controller
     {
 		// Dont read first line
-		const int LINES_IN_BEGIN_CSV = 1;
+		//const int LINES_IN_BEGIN_CSV = 1;
 		private StationsController _Instance = null; public StationsController Instance { get { return _Instance; } set { _Instance = value; } }
         
 
 		private readonly ApplicationDbContext _context;
-		String[] csvLines = System.IO.File.ReadAllLines(@"C:\Users\Omistaja\source\repos\MyBikeApp\MyBikeApp\csv\else\Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv");
+        //  string path = Path.Combine(Environment.CurrentDirectory, @"$\dirname\MyBikeApp\csv\else\", "Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv");
+         String[] csvLines = System.IO.File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, @"csv\else\", "Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv"));
 
-
-		public StationsController(ApplicationDbContext context)
+        public StationsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -41,7 +41,7 @@ namespace MyBikeApp.Controllers
 			Task task = Task.Run(async () =>
 			{
 				
-				for (int i = LINES_IN_BEGIN_CSV; i < csvLines.Length; i++)
+				for (int i = 0; i < csvLines.Length; i++)
 				{
 
                     Station station = new Station();
@@ -141,6 +141,7 @@ namespace MyBikeApp.Controllers
 			GetAverageDistances(StationInfo, station);
 			GetGoogleMapsCoordinates(StationInfo, station);
 			StationInfo.StationName = station.Name;
+			StationInfo.Address = station.Address;
             return View("Details", StationInfo);
 		}
 		public void GetGoogleMapsCoordinates(SharedViewModel StationInfo, Station station)
