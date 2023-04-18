@@ -16,6 +16,9 @@ Data:
 - Journeys are importet to local SQL database. For easy and fast use for the user there is no need to start external SQL database to run the project.
 - In console you can see how many journeys were included and excluded.
 
+Database:
+- upload statio and journey csv files(Might take few minutes)
+- clears the database from stations and journeys
 
 Journey list view: 
 - Shows 200 journeys per page. Possibility to go to next page or the last one.
