@@ -25,16 +25,23 @@ Journey list view:
 
 Station list:
 - Pagination and Search field
-- -Click "Show Station Info" to see more information about selected station
+- Click "Show Station Info" to see more information about selected station
 
 Single station view:
-- shows Station name, Station address, Total number of journeys starting from the station,Top 5 most popular return stations for journeys starting from the station, Top 5 most popular departure stations for journeys ending at the station, Total number of journeys ending at the station, Station location on google maps, The average distance of a journey starting from the station, The average distance of a journey ending at the station.
+- Shows Station name, Station address.
+- Total number of journeys starting from the station.
+- Top 5 most popular return stations for journeys starting from the station.
+- Top 5 most popular departure stations for journeys ending at the station.
+- Total number of journeys ending at the station.
+- Station location on google maps.
+- The average distance of a journey starting from the station.
+- The average distance of a journey ending at the station.
 
 
 ScreenShot here!!
 
 <h2> Build with </h2>
-Visual Studio aspnet MVC, SQL
+Visual Studio ASP.NET MVC, SQL
 
 <h2> Future updates </h2>
 Implement E2E tests, Ability to filter all Single station view calculations per month
