@@ -25,10 +25,12 @@ Journey list view:
 - each journey shows departure and return stations, covered distance in kilometers and duration in minutes.
 - Order journeys by column. Orders by descending.
 - Search Journeys by departure or return station.
+- Create/delete journey
 
 Station list:
 - Pagination and Search field
 - Click "Show Station Info" to see more information about selected station
+- Create/delete/edit station
 
 Single station view:
 - Shows Station name, Station address.
@@ -40,8 +42,6 @@ Single station view:
 - The average distance of a journey starting from the station.
 - The average distance of a journey ending at the station.
 
-
-ScreenShot here!!
 
 <h2> Build with </h2>
 Visual Studio ASP.NET MVC, SQL
