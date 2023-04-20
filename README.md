@@ -19,6 +19,7 @@ Data:
 Database:
 - upload statio and journey csv files(Might take few minutes)
 - clears the database from stations and journeys
+- CSV files are not included. They can be downloaded from https://github.com/solita/dev-academy-2023-exercise and added to csv/ folder.
 
 Journey list view: 
 - Shows 200 journeys per page. Possibility to go to next page or the last one.
