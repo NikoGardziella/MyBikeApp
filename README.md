@@ -16,16 +16,22 @@ Data:
 - Journeys are importet to local SQL database. For easy and fast use for the user there is no need to start external SQL database to run the project.
 - In console you can see how many journeys were included and excluded.
 
+Database:
+- upload statio and journey csv files(Might take few minutes)
+- clears the database from stations and journeys
+- CSV files are not included. They can be downloaded from https://github.com/solita/dev-academy-2023-exercise and added to csv/ folder.
 
 Journey list view: 
 - Shows 200 journeys per page. Possibility to go to next page or the last one.
 - each journey shows departure and return stations, covered distance in kilometers and duration in minutes.
 - Order journeys by column. Orders by descending.
 - Search Journeys by departure or return station.
+- Create/delete journey
 
 Station list:
 - Pagination and Search field
 - Click "Show Station Info" to see more information about selected station
+- Create/delete/edit station
 
 Single station view:
 - Shows Station name, Station address.
@@ -38,10 +44,8 @@ Single station view:
 - The average distance of a journey ending at the station.
 
 
-ScreenShot here!!
-
 <h2> Build with </h2>
 Visual Studio ASP.NET MVC, SQL
 
 <h2> Future updates </h2>
-Implement E2E tests, Ability to filter all Single station view calculations per month
+Login & roles,  Implement E2E tests, Ability to filter all Single station view calculations per month

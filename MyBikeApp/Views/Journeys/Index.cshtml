@@ -1,7 +1,8 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Web.Common;
 @using X.PagedList.Mvc.Core.Fluent;
-@model X.PagedList.IPagedList<MyBikeApp.Models.Journey>
+@model MyBikeApp.Models.PagedClientViewModel
+
 @{
     ViewBag.Title = "Journeys";
 }
@@ -49,7 +50,7 @@
 
     <tbody>
     
-        @foreach (var item in Model)
+        @foreach (var item in Model.JourneyList)
         {
             <tr>
                 <td>@item.DepartureStationName</td>
@@ -60,7 +61,7 @@
                 <td>@item.CoveredDistance km</td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <!-- <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> --> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
              </tr>
@@ -71,6 +72,6 @@
 
         
 </table>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+Page @(Model.PagingMetaData.PageCount < Model.PagingMetaData.PageNumber ? 0 : Model.PagingMetaData.PageNumber) of @Model.PagingMetaData.PageCount
 
-@Html.PagedListPager( Model , page => Url.Action("Index", new { page }) )
+@Html.PagedListPager(Model.PagingMetaData, page => Url.Action("Index", new { page }))

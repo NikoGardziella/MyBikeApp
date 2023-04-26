@@ -232,7 +232,7 @@ namespace MyBikeApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<float>("CoveredDistanceM")
+                    b.Property<float>("CoveredDistance")
                         .HasColumnType("real");
 
                     b.Property<string>("Departure")
@@ -246,7 +246,7 @@ namespace MyBikeApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DurationSec")
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
                     b.Property<string>("Return")
@@ -265,6 +265,27 @@ namespace MyBikeApp.Migrations
                     b.ToTable("Journey");
                 });
 
+            modelBuilder.Entity("MyBikeApp.Models.LoginViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoginViewModel");
+                });
+
             modelBuilder.Entity("MyBikeApp.Models.Station", b =>
                 {
                     b.Property<int>("Id")
@@ -274,6 +295,14 @@ namespace MyBikeApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

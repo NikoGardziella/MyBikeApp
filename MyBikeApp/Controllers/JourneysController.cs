@@ -16,9 +16,11 @@ using CsvHelper;
 using System.IO;
 using System.Globalization;
 using System.Linq;
-using X.PagedList;
+
 using System.Drawing.Printing;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NuGet.Protocol.Core.Types;
+using PagedList;
 
 
 namespace MyBikeApp.Controllers
@@ -26,7 +28,7 @@ namespace MyBikeApp.Controllers
     public class JourneysController : Controller
     {
 
-        private const int JOURNEYS_PER_PAGE = 200;
+        private const int JOURNEYS_PER_PAGE = 100;
         String[] files = System.IO.Directory.GetFiles(Environment.CurrentDirectory, @"csv\");
       //  String[] csvLines = System.IO.File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, @"csv\else\", "Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv"));
 
@@ -101,7 +103,7 @@ namespace MyBikeApp.Controllers
             var m_Journeys = await _context.Journey.ToListAsync();
             return Ok(m_Journeys);
         }     
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int page)
         {
             
             ViewBag.CurrentSort = sortOrder;
@@ -124,8 +126,8 @@ namespace MyBikeApp.Controllers
             ViewBag.CurrentFilter = searchString;
             
             var m_Journeys = from s in _context.Journey
-                             select s;
-
+                             select s ;
+           
             if (!String.IsNullOrEmpty(searchString))
             {
                 m_Journeys = m_Journeys.Where(s => s.DepartureStationName.Contains(searchString)
@@ -161,8 +163,18 @@ namespace MyBikeApp.Controllers
                     break;
             }
             int pageSize = JOURNEYS_PER_PAGE;
-            int pageNumber = (page ?? 1);
-            return View(m_Journeys.ToPagedList(pageNumber, pageSize));
+            if (page <= 0)
+                page = 1;
+            int pageNumber = page;
+            var count = m_Journeys.Count();
+            m_Journeys = m_Journeys.Skip(pageSize * (pageNumber - 1))
+                .Take(JOURNEYS_PER_PAGE);
+           // var resultAsPagedList = new StaticPagedList<Journey>(m_Journeys, pageNumber, pageSize, count).GetMetaData();
+            PagedClientViewModel m_PagedClientViewModel = new PagedClientViewModel();
+            m_PagedClientViewModel.PagingMetaData = new X.PagedList.StaticPagedList<Journey>(m_Journeys, pageNumber, pageSize, count).GetMetaData();
+            
+            m_PagedClientViewModel.JourneyList = m_Journeys.ToList();
+            return View(m_PagedClientViewModel);
         }
 
         // GET: Stations/ShowSearchForm
@@ -218,7 +230,7 @@ namespace MyBikeApp.Controllers
             return View(journey);
         }
 
-        [Authorize]
+     //  [Authorize]
         // GET: Journey/Create
         public IActionResult Create()
         {
@@ -228,7 +240,7 @@ namespace MyBikeApp.Controllers
         // POST: Stations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+     //   [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -245,7 +257,7 @@ namespace MyBikeApp.Controllers
         }
 
         // GET: Stations/Edit/5
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Journey == null)
@@ -260,13 +272,13 @@ namespace MyBikeApp.Controllers
             }
             return View(journey);
         }
-        [Authorize]
+      //  [Authorize]
         // POST: Stations/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DepartureStationName, Departure, Return")] Journey journey)
+        public async Task<IActionResult> Edit(int id, [Bind("DepartureStationName, Departure,ReturnStationName, Return, CoveredDistance,Duration")] Journey journey)
         {
             if (id != journey.Id)
             {
@@ -295,7 +307,7 @@ namespace MyBikeApp.Controllers
             }
             return View(journey);
         }
-        [Authorize]
+    //    [Authorize]
         // GET: Journeys/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -313,7 +325,7 @@ namespace MyBikeApp.Controllers
 
             return View(journey);
         }
-        [Authorize]
+   //     [Authorize]
         // POST: Journeys/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

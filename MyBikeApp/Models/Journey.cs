@@ -2,9 +2,14 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MyBikeApp.Data;
 using Newtonsoft.Json.Linq;
+using System.Net.NetworkInformation;
 using static System.Collections.Specialized.BitVector32;
+using X.PagedList.Mvc.Core;
+using X.PagedList.Web.Common;
+using X.PagedList.Mvc.Core.Fluent;
+using System.Net.NetworkInformation;
 
-// my Google api key AIzaSyCzqA-6S-F8Ka-EvrKoluV6UMnBDQC0aKg
+
 
 namespace MyBikeApp.Models
 {
@@ -112,5 +117,12 @@ namespace MyBikeApp.Models
 
 			return str;
 		}
-	}
+
+    }
+        public class PagedClientViewModel
+        {
+            public int? Page { get; set; }
+            public List<Journey> JourneyList { get; set; }
+            public X.PagedList.IPagedList PagingMetaData { get; set; }
+        }
 }
